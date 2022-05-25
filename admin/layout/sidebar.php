@@ -25,6 +25,12 @@
       <span>Student</span></a>
   </li>
 
+    <li class="nav-item active">
+    <a class="nav-link" href="http://localhost/web/project/admin/student/index.php">
+      <i class="fas fa-fw fa-users"></i>
+      <span>Quiz</span></a>
+  </li>
+
 
   
   <!-- Divider -->

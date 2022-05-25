@@ -1,19 +1,27 @@
 <?php
     session_start();
+    require_once 'db_config.php';
 
+    if(!empty($_SESSION)){
+      if($_SESSION['logined_in'] == 'true'){
+        header('Location:admin/student/index.php');
+      }
+    }
+
+
+    if(empty($_GET['type'])){
+      header('Location:register.php?type=student');
+
+    }
     if($_SERVER['REQUEST_METHOD'] == "POST"){
- 
-        $con = mysqli_connect('localhost','root','','project_php');
-
-        if(!$con){
-            die('Error : ' . mysqli_connect_error());
-        }else{
 
             $name = $_POST['fname'];
             $email = $_POST['email'];
             $password = $_POST['password'];
             $cpassword = $_POST['cpassword'];
 
+            
+            
             $errors = [];
 
             
@@ -34,27 +42,57 @@
             } 
 
             if(empty($errors)){
-                $query = "INSERT INTO student(name,email,password)
-                VALUES('$name', '$email','$password')";
+                if(!empty($_GET['type'])){
+                  $type = $_GET['type'];
+                  if($type == "admin"){
+                      // query admin
 
-                $result = mysqli_query($con, $query);
-                
-                if($result){
-                    $_SESSION['name'] = $name;
-                    $_SESSION['email'] = $email;
-                    $_SESSION['logined_in'] = 'true';
+                          $query = "INSERT INTO teacher(name,email,password)
+                          VALUES('$name', '$email','$password')";
 
-                    echo "ok";
-                    die();
-                    // header('location:student/home.php');
-                    // exit;
-                }else{
-                    die('Error : ' . mysqli_error($con));
+                          $result = mysqli_query($con, $query);
+                          
+                          if($result){
+                              $_SESSION['name'] = $name;
+                              $_SESSION['email'] = $email;
+                              $_SESSION['logined_in'] = 'true';
+                              $_SESSION['type'] = 'admin';
+
+                              header('location:admin/student/index.php');
+                          }else{
+                              die('Error : ' . mysqli_error($con));
+                          }
+
+
+                  }else if($type == "student"){
+                    // student
+
+                        $query = "INSERT INTO student(name,email,password)
+                        VALUES('$name', '$email','$password')";
+
+                        $result = mysqli_query($con, $query);
+                        
+                        if($result){
+                            $_SESSION['name'] = $name;
+                            $_SESSION['email'] = $email;
+                            $_SESSION['logined_in'] = 'true';
+                            $_SESSION['type'] = 'student';
+
+
+                            header('location:admin/student/index.php');
+                        }else{
+                            die('Error : ' . mysqli_error($con));
+                        }
+
+
+                  }else{
+                    die("Type is inValide");
+                  }
                 }
             }
         }
-    }
-    
+
+
 ?>
 <!DOCTYPE html>
 <html lang="en">

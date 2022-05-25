@@ -39,8 +39,9 @@ require_once('../layout/header.php');
 
                         <!-- DataTales Example -->
                         <div class="card shadow mb-4">
-                            <div class="card-header py-3">
+                            <div class="card-header py-3" style="display: flex;justify-content: space-between;">
                                 <h6 class="m-0 font-weight-bold text-primary">All Students</h6>
+                                <a href="add-student.php"><h6 class="m-0 font-weight-bold text-primary">Add Students</h6></a>
                             </div>
                             <div class="card-body">
                                 <div class="table-responsive">
@@ -55,16 +56,6 @@ require_once('../layout/header.php');
                                                 <th>Actions</th>
                                             </tr>
                                         </thead>
-                                        <tfoot>
-                                            <tr>
-                                                <th>ID</th>
-                                                <th>Name</th>
-                                                <th>Eamil</th>
-                                                <th>Marks</th>
-                                                <th>Age</th>
-                                                <th>Actions</th>
-                                            </tr>
-                                        </tfoot>
                                         <tbody>
                                             <?php 
                                             if(mysqli_num_rows($result) > 0) {
@@ -78,8 +69,8 @@ require_once('../layout/header.php');
                                                 <td>0</td>
                                                 <td>0</td>  
                                                 <td>
-                                                    <!-- <a href="" class="btn btn-warning">Show</a> -->
-                                                    <a href="" class="btn btn-danger">Delete</a>
+                                                    <a href="update-student.php?id=<?php echo $row['id']?>" class="btn btn-warning">Update</a>
+                                                    <a href="delete-student.php?id=<?php echo $row['id']?>" class="btn btn-danger">Delete</a>
                                                 </td>
                                             </tr>
 
